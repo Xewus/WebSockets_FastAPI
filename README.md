@@ -25,7 +25,7 @@
 Взаимодействие с сервером по вебсокет нужно реализовать с использованием JSON. Формат и именование полей не важно. можно использовать любые.
 
 ***
-![Иллюстрация к проекту](https://github.com/Xewus/Foodgram/blob/master/screen.png)
+![Иллюстрация к проекту](https://github.com/Xewus/WebSockets_FastAPI/blob/master/screen.png)
 ***
 
 ### Инструкция по применению
