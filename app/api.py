@@ -1,13 +1,9 @@
 """Модуль обработки запросов.
 """
-from datetime import datetime
-
-from fastapi import APIRouter, Request, WebSocket
+from fastapi import APIRouter, Request, WebSocket, status
 from fastapi.responses import HTMLResponse
 
-from app.messagestore import MessageStore
-from app.schemas import ErrorSchema
-from app.settings import STORE
+from app.messagestore import Message
 from pages.index import index
 
 router = APIRouter()
@@ -15,7 +11,7 @@ router = APIRouter()
 
 @router.get(
     path='/',
-    summary='Гоавная страница, с которой идут запросы на websocket`ы'
+    summary='Главная страница, с которой идут запросы на websocket`ы'
 )
 async def get(request: Request):
     ws_url = f'ws{str(request.base_url).lstrip("htps")}ws'
@@ -26,14 +22,19 @@ async def get(request: Request):
 async def add_message(
     websocket: WebSocket,
 ):
-    chat_id = str(datetime.now().timestamp()) + '.txt'
-    message_store = MessageStore(store=STORE / chat_id)
+    message = Message()
     await websocket.accept()
+
     while True:
-        message = await websocket.receive_json()
-        text = message.get('text')
-        if not text:
-            await websocket.send_json(ErrorSchema().json())
-            continue
-        message = await message_store.add(text)
-        await websocket.send_json(message.json())
+        data = await websocket.receive_json()
+        text = data.get('text')
+
+        if text is not None and len(text) > 0:
+            message.num += 1
+            message.status = status.HTTP_200_OK
+            message.text = text
+        else:
+            message.status = status.HTTP_400_BAD_REQUEST
+            message.text = 'Отсутствует текст сообщения'
+
+        await websocket.send_json(message.dict())

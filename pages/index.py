@@ -39,9 +39,9 @@ index = '''
     </div><!-- bg-image -->
 
     <script>
-        var ws = new WebSocket("%s");
+        var ws = new WebSocket("%8s");
         ws.onmessage = function(event) {
-            var data = JSON.parse(JSON.parse(event.data))
+            var data = JSON.parse(event.data)
             if (data.status == 400) {
                 alert(data.text)
             } else if (data.status == 200) {
