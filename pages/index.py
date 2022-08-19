@@ -18,23 +18,29 @@ index = '''
       "
     >
       <main>
-        <div>
-          <div class="col-sm-8 py-5 mx-auto">
-            <div class="card">
-              <h1 class="card-header" style="display: flex; justify-content: center">
-                Сообщения
-              </h1>
-              <div class="card-body" style="display: flex; justify-content: center">
-                <form onsubmit="sendMessage(event)">
-                  <input required type="text" id="messageText" autocomplete="off"/>
-                  <button>Отправить</button>
-                </form>
+        <div class="col-sm-8 py-5 mx-auto">
+          <div class="card">
+            <h1 class="card-header" style="display: flex; justify-content: center">
+              Сообщения
+            </h1>
+            <div class="form-control rows="4">
+              <form onsubmit="sendMessage(event)">
+                <textarea required id="messageText" class="form-control" rows="3">
+                </textarea>
+                <div class="d-grid gap-1 col-6 mx-auto">
+                  <button class="btn btn-primary">
+                    Отправить
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <div class="card-body" style="display: flex; justify-content: center">
+              <div id="messages">
               </div>
-              <div id="messages" class="card-body">
-              </div><!-- card-body -->
-            </div><!-- card -->
-          </div><!-- col -->
-        </div><!-- rounded -->
+            </div><!-- card-body -->
+          </div><!-- card -->
+        </div><!-- col -->
       </main>
     </div><!-- bg-image -->
 
