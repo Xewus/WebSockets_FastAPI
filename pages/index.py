@@ -18,12 +18,12 @@ index = '''
       "
     >
       <main>
-        <div class="container row justify-content-center">
-          <div class="col-md-8 p-5">
+        <div>
+          <div class="col-sm-8 py-5 mx-auto">
             <div class="card">
-              <div class="card-header" style="display: flex; justify-content: center">
-                <h1>Сообщения</h1>
-              </div>
+              <h1 class="card-header" style="display: flex; justify-content: center">
+                Сообщения
+              </h1>
               <div class="card-body" style="display: flex; justify-content: center">
                 <form onsubmit="sendMessage(event)">
                   <input required type="text" id="messageText" autocomplete="off"/>
@@ -31,10 +31,10 @@ index = '''
                 </form>
               </div>
               <div id="messages" class="card-body">
-              </div>
+              </div><!-- card-body -->
             </div><!-- card -->
           </div><!-- col -->
-        </div><!-- container-->
+        </div><!-- rounded -->
       </main>
     </div><!-- bg-image -->
 
