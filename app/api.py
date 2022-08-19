@@ -2,17 +2,21 @@
 """
 from datetime import datetime
 
-from fastapi import APIRouter, Request, WebSocket, status
+from fastapi import APIRouter, Request, WebSocket
 from fastapi.responses import HTMLResponse
 
 from app.messagestore import MessageStore
+from app.schemas import ErrorSchema
 from app.settings import STORE
 from pages.index import index
 
 router = APIRouter()
 
 
-@router.get('/')
+@router.get(
+    path='/',
+    summary='Гоавная страница, с которой идут запросы на websocket`ы'
+)
 async def get(request: Request):
     ws_url = f'ws{str(request.base_url).lstrip("htps")}ws'
     return HTMLResponse(index % ws_url)
@@ -27,16 +31,9 @@ async def add_message(
     await websocket.accept()
     while True:
         message = await websocket.receive_json()
-        message = message.get('message')
-        if not message:
-            await websocket.send_json({
-                'status': status.HTTP_400_BAD_REQUEST,
-                'error': 'No text in the message'
-            })
+        text = message.get('text')
+        if not text:
+            await websocket.send_json(ErrorSchema().json())
             continue
-        number = await message_store.add(message)
-        await websocket.send_json({
-            'status': status.HTTP_201_CREATED,
-            'number': number,
-            'message': message
-        })
+        message = await message_store.add(text)
+        await websocket.send_json(message.json())

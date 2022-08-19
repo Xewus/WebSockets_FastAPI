@@ -40,18 +40,18 @@ index = '''
 
     <script>
         var ws = new WebSocket("%s");
-
         ws.onmessage = function(event) {
-            var data = JSON.parse(event.data)
-
+            var data = JSON.parse(JSON.parse(event.data))
             if (data.status == 400) {
-                alert(data.error)
-            } else if (data.status == 201) {
-                var messages = document.getElementById('messages')
+                alert(data.text)
+            } else if (data.status == 200) {
+                var messages = document.getElementById("messages")
                 var message = document.createElement('ol')
-                var content = document.createTextNode(data.number + ": " + data.message);
+                var content = document.createTextNode(data.num + ": " + data.text);
                 message.appendChild(content)
                 messages.appendChild(message)
+            } else {
+              alert("Неизвестная ошибка")
             }
         };
 
@@ -59,10 +59,10 @@ index = '''
             if (ws.readyState === ws.OPEN) {
                 var input = document.getElementById("messageText")
                 var data = {
-                    "message": document.getElementById("messageText").value
+                    "text": document.getElementById("messageText").value
                 };
                 ws.send(JSON.stringify(data));
-                input.value = ''
+                input.value = ""
                 event.preventDefault()
             } else {
                 alert("Нет соединения с сервером")
