@@ -34,8 +34,6 @@ index = '''
                 </div>
               </form>
             </div>
-            <div class="card-body" style="display: flex; justify-content: center">
-            </div><!-- card-body -->
           </div><!-- card -->
               
               <div id="messages">
@@ -52,13 +50,14 @@ index = '''
         if (data.status == 400) {
           alert(data.text)
         } else if (data.status == 200) {
-          var messages = document.getElementById("messages")
-          var card = document.createElement("message-card")
-          card.classList.add("card")
-          var message = document.createElement('ol')
+          var messages = document.getElementById("messages");
+          var card = document.createElement("message-card");
+          card.style.backgroundColor = "Moccasin";
+          card.classList.add("card");
+          var message = document.createElement('ol');
           var content = document.createTextNode(data.num + ": " + data.text);
-          message.appendChild(content)
-          card.appendChild(message)
+          message.appendChild(content);
+          card.appendChild(message);
           messages.appendChild(card)
         } else {
           alert("Неизвестная ошибка")
@@ -67,12 +66,12 @@ index = '''
 
       function sendMessage(event) {
         if (ws.readyState === ws.OPEN) {
-          var input = document.getElementById("messageText")
+          var input = document.getElementById("messageText");
           var data = {
             "text": document.getElementById("messageText").value
           };
           ws.send(JSON.stringify(data));
-          input.value = ""
+          input.value = "";
           event.preventDefault()
         } else {
           alert("Нет соединения с сервером")
